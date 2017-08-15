@@ -26,8 +26,13 @@
                 items: [
                     {
                         icon: 'el-icon-setting',
-                        index: 'readme',
-                        title: '自述'
+                        index: 'add',
+                        title: 'Add'
+                    },
+                    {
+                        icon: 'el-icon-setting',
+                        index: 'update',
+                        title: 'Update'
                     },
                     {
                         icon: 'el-icon-menu',

@@ -1,7 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import axios from 'axios';
 
 Vue.use(Router);
+Vue.use(axios);
+
+let baseUrl = 'http://192.168.205.123:3000'
+let instance = axios.create({ baseURL: baseUrl});
+Vue.prototype.$http = instance;
 
 export default new Router({
     routes: [
@@ -10,12 +16,16 @@ export default new Router({
             redirect: '/login'
         },
         {
-            path: '/readme',
+            path: '/home',
             component: resolve => require(['../components/common/Home.vue'], resolve),
-            children:[
+            children: [
                 {
-                    path: '/',
+                    path: '/add',
                     component: resolve => require(['../components/page/Readme.vue'], resolve)
+                },
+                {
+                    path: '/update',
+                    component: resolve => require(['../components/page/Update.vue'], resolve)
                 },
                 {
                     path: '/basetable',

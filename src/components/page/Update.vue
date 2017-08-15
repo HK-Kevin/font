@@ -5,7 +5,7 @@
                 <el-breadcrumb-item><i class="el-icon-date"></i>Add Title</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="form-box">
+       <!-- <div class="form-box">
             <el-form ref="form" :model="form" label-width="100px">
                 <el-form-item label="Title">
                     <el-input v-model="form.title"></el-input>
@@ -38,7 +38,7 @@
                                   :config="editorOption"></quill-editor>
                 </el-form-item>
             </el-form>
-        </div>
+        </div>-->
 
         <el-button class="editor-btn" type="primary" @click="submit">提交</el-button>
     </div>
