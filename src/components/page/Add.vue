@@ -34,7 +34,7 @@
                     <el-input type="textarea" v-model="form.shortAnswer"></el-input>
                 </el-form-item>
                 <el-form-item label="shortAnswer">
-                    <quill-editor style="width: 250%" ref="myTextEditor" v-model="form.answer"
+                    <quill-editor style="width: 100%" ref="myTextEditor" v-model="form.answer"
                                   :config="editorOption"></quill-editor>
                 </el-form-item>
             </el-form>

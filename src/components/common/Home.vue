@@ -17,3 +17,9 @@
         }
     }
 </script>
+<style scoped>
+    .content{
+        left: 160px;
+    }
+
+</style>

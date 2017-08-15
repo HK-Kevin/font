@@ -1,100 +1,180 @@
 <template>
-    <div>
+    <div class="table">
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-date"></i>Add Title</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-menu"></i> Update</el-breadcrumb-item>
+
             </el-breadcrumb>
         </div>
-       <!-- <div class="form-box">
-            <el-form ref="form" :model="form" label-width="100px">
-                <el-form-item label="Title">
-                    <el-input v-model="form.title"></el-input>
-                </el-form-item>
-                <el-form-item label="选择开关">
-                    <el-switch on-text="" off-text="" v-model="form.delivery"></el-switch>
-                </el-form-item>
-                <el-form-item label="Company">
-                    <el-checkbox-group v-model="form.company">
-                        <el-checkbox v-for="(item,index) in companyCont" :key="index" :label="item"
-                                     name="type"></el-checkbox>
-                    </el-checkbox-group>
-                </el-form-item>
-                <el-form-item label="Type">
-                    <el-checkbox-group v-model="form.type">
-                        <el-checkbox v-for="(item,index) in typeCont" :key="index" :label="item"
-                                     name="type"></el-checkbox>
-                    </el-checkbox-group>
-                </el-form-item>
-                <el-form-item label="Hard">
-                    <el-radio-group v-model="form.hard">
-                        <el-radio v-for="(item,index) in hardCont" :key="index" :label="item"></el-radio>
-                    </el-radio-group>
-                </el-form-item>
-                <el-form-item label="shortAnswer">
-                    <el-input type="textarea" v-model="form.shortAnswer"></el-input>
-                </el-form-item>
-                <el-form-item label="shortAnswer">
-                    <quill-editor style="width: 250%" ref="myTextEditor" v-model="form.answer"
-                                  :config="editorOption"></quill-editor>
-                </el-form-item>
-            </el-form>
-        </div>-->
-
-        <el-button class="editor-btn" type="primary" @click="submit">提交</el-button>
+        <div class="handle-box">
+            <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
+            <el-select v-model="select_cate" placeholder="筛选省份" class="handle-select mr10">
+                <el-option key="1" label="广东省" value="广东省"></el-option>
+                <el-option key="2" label="湖南省" value="湖南省"></el-option>
+            </el-select>
+            <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
+            <el-button type="primary" icon="search" @click="search">搜索</el-button>
+        </div>
+        <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column prop="date" label="日期" sortable width="150">
+            </el-table-column>
+            <el-table-column prop="name" label="姓名" width="150">
+            </el-table-column>
+            <el-table-column prop="address" label="地址" :formatter="formatter">
+            </el-table-column>
+            <el-table-column label="操作" width="180">
+                <template scope="scope">
+                    <el-button size="small"
+                               @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    <el-button size="small" type="danger"
+                               @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div class="pagination">
+            <el-pagination
+                @current-change ="handleCurrentChange"
+                layout="prev, pager, next"
+                :total="1000">
+            </el-pagination>
+        </div>
+        <el-table :data="titleData" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="55"></el-table-column>
+            <el-table-column prop="_id" label="id" sortable width="150">
+            </el-table-column>
+            <el-table-column prop="title" label="title" width="150">
+            </el-table-column>
+            <el-table-column prop="date" label="date" >
+            </el-table-column>
+            <el-table-column label="操作" width="180">
+                <template scope="scope">
+                    <el-button size="small"
+                               @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                    <el-button size="small" type="danger"
+                               @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <el-pagination
+            @current-change ="handlePage"
+            layout="prev, pager, next"
+            :total="1000">
+        </el-pagination>
     </div>
 </template>
 
 <script>
-    import {quillEditor} from 'vue-quill-editor';
     export default {
-        data: function () {
+        data() {
             return {
-                hardCont: [1, 2, 3, 4, 5],
-                companyCont: ['阿里', '腾讯', '百度', "360", "小米"],
-                typeCont: ['CSS', '原生JS', 'jQuery', 'HTTP', 'Ajax',],
-                form: {
-                    title: '',
-                    type: [],
-                    hard: 1,
-                    company: [],
-                    shortAnswer: '',
-                    answer: '',
-                    titleClickTimes:0
-                },
-                editorOption: {
-                    // something config
-                }
+                url: './static/vuetable.json',
+                tableData: [],
+                cur_page: 1,
+                multipleSelection: [],
+                select_cate: '',
+                select_word: '',
+                del_list: [],
+                is_search: false,
+                titleData:[],
+                title_page:1,
+                totalPage:100,
+                limit:2,
             }
         },
-        components: {
-            quillEditor
+        created(){
+            this.getData();
         },
-        methods: {
-            onSubmit() {
-                this.$message.success('提交成功！');
-            },
-            onEditorChange({editor, html, text}) {
-                this.form.answer = html;
-            },
-            submit(){
-                console.log(this.form);
-                this.$message.success('提交成功！');
-                this.$http({
-                    url: '/hk',
-                    method: 'post',
-                    data: this.form
+        computed: {
+            data(){
+                const self = this;
+                return self.tableData.filter(function(d){
+                    let is_del = false;
+                    for (let i = 0; i < self.del_list.length; i++) {
+                        if(d.name === self.del_list[i].name){
+                            is_del = true;
+                            break;
+                        }
+                    }
+                    if(!is_del){
+                        if(d.address.indexOf(self.select_cate) > -1 &&
+                            (d.name.indexOf(self.select_word) > -1 ||
+                            d.address.indexOf(self.select_word) > -1)
+                        ){
+                            return d;
+                        }
+                    }
                 })
             }
         },
-        computed: {
-            editor() {
-                return this.$refs.myTextEditor.quillEditor;
-            }
+        methods: {
+            handlePage(val){
+               this.title_page = val;
+                this.getData();
+            },
+            handleCurrentChange(val){
+                this.cur_page = val;
+                this.getData();
+            },
+            getData(){
+                let self = this;
+                if(process.env.NODE_ENV === 'development'){
+                    self.url = '/ms/table/list';
+                };
+                self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
+                    self.tableData = res.data.list;
+                })
+                let findPageCon = {page:this.title_page,limit:this.limit}
+
+                self.$axios.post('http://47.94.94.52:3000/allTitles',findPageCon).then(res=>{
+//                    this.titleData = res.data
+                })
+
+            },
+            search(){
+                console.log(this.titleData)
+                this.is_search = true;
+            },
+            formatter(row, column) {
+                return row.address;
+            },
+            filterTag(value, row) {
+                return row.tag === value;
+            },
+            handleEdit(index, row) {
+                this.$message('编辑第'+(index+1)+'行');
+            },
+            handleDelete(index, row) {
+                this.$message.error('删除第'+(index+1)+'行');
+            },
+            delAll(){
+                const self = this,
+                    length = self.multipleSelection.length;
+                let str = '';
+                self.del_list = self.del_list.concat(self.multipleSelection);
+                for (let i = 0; i < length; i++) {
+                    str += self.multipleSelection[i].name + ' ';
+                }
+                self.$message.error('删除了'+str);
+                self.multipleSelection = [];
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
+            },
+
         }
     }
 </script>
+
 <style scoped>
-    .editor-btn {
-        margin-top: 20px;
+    .handle-box{
+        margin-bottom: 20px;
+    }
+    .handle-select{
+        width: 120px;
+    }
+    .handle-input{
+        width: 300px;
+        display: inline-block;
     }
 </style>
