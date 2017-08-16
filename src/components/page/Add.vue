@@ -44,6 +44,7 @@
 </template>
 
 <script>
+    import 'highlight.js/styles/googlecode.css'
     import E from 'wangeditor'
     export default {
         data: function () {
@@ -69,9 +70,9 @@
         mounted() {
             let editor = new E('#editorElem');
             editor.customConfig.onchange = (html) => {
-                this.answer = html;
+                this.form.answer = html;
             };
-            editor.customConfig.uploadImgServer = 'http://localhost:3000/upload' ; // 上传图片到服务器
+            editor.customConfig.uploadImgServer = 'http://47.94.94.52:3000/upload' ; // 上传图片到服务器
             editor.customConfig.uploadFileName = 'avator';
             editor.create()
         },
@@ -96,6 +97,7 @@
         }
     }
 </script>
+
 <style scoped>
     .editor-btn {
         margin-top: 20px;

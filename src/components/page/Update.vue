@@ -17,40 +17,6 @@
             <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
             <el-button type="primary" icon="search" @click="search">搜索</el-button>
         </div>
-        <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
-            <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="date" label="日期" sortable width="150">
-            </el-table-column>
-            <el-table-column prop="name" label="姓名" width="150">
-            </el-table-column>
-            <el-table-column prop="address" label="地址">
-            </el-table-column>
-            <el-table-column label="操作" width="180">
-                <template scope="scope">
-                    <el-button size="small"
-                               @click="handleEdit(scope.$index, scope.row)">编辑
-
-
-
-
-                    </el-button>
-                    <el-button size="small" type="danger"
-                               @click="handleDelete(scope.$index, scope.row)">删除
-
-
-
-
-                    </el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-        <div class="pagination">
-            <el-pagination
-                @current-change=""
-                layout="prev, pager, next"
-                :total="1000">
-            </el-pagination>
-        </div>
         <el-table :data="titleData" border style="width: 100%" ref="multipleTable"
                   @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
