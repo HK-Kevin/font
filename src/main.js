@@ -6,12 +6,14 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';    // 默认主题
 // import '../static/css/theme-green/index.css';       // 浅绿色主题
 import "babel-polyfill";
-let baseUrl = 'http://47.94.94.52:3000'
+let baseUrl = 'http://localhost:3000';
 
 let instance = axios.create({ baseURL: baseUrl});
 Vue.prototype.$http = instance;
+axios.defaults.baseURL = 'https://api.example.com';
 
 Vue.use(ElementUI);
+axios.defaults.baseURL = 'http://localhost:3000';
 Vue.prototype.$axios = axios;
 new Vue({
     router,

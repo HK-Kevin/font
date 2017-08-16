@@ -33,18 +33,23 @@
                 <el-form-item label="shortAnswer">
                     <el-input type="textarea" v-model="form.shortAnswer"></el-input>
                 </el-form-item>
-                <el-form-item label="shortAnswer">
-                    <div id="editorElem" style="text-align:left;width: 200%"></div>
+                <el-form-item label="answer">
+                    <quill-editor style="width: 100%" ref="myTextEditor" v-model="form.answer"
+                                  :config="editorOption"></quill-editor>
+                </el-form-item>
+                <el-form-item label="answer">
+                    <div id="editorElemOne" style="text-align:left;width: 200%"></div>
                 </el-form-item>
             </el-form>
         </div>
 
-        <el-button class="editor-btn" type="primary" @click="submit">提交</el-button>
+        <el-button class="editor-btn" type="primary" @click="update">确认更改</el-button>
     </div>
 </template>
 
 <script>
     import E from 'wangeditor'
+    import {quillEditor} from 'vue-quill-editor';
     export default {
         data: function () {
             return {
@@ -59,7 +64,9 @@
                     company: [],
                     shortAnswer: '',
                     answer: '',
-                    titleClickTimes:0
+                    titleClickTimes: 0,
+                    date:'',
+                    _id:''
                 },
                 editorOption: {
                     // something config
@@ -67,33 +74,39 @@
             }
         },
         mounted() {
-            let editor = new E('#editorElem');
+            let editor = new E('#editorElemOne');
             editor.customConfig.onchange = (html) => {
-                this.answer = html;
+                this.form.answer = html;
             };
             editor.customConfig.uploadImgServer = 'http://localhost:3000/upload' ; // 上传图片到服务器
             editor.customConfig.uploadFileName = 'avator';
             editor.create()
+            },
+        created(){
+            let idObj = this.$route.params;
+            this.$axios.get(`/oneTitle?id=${idObj.id}`).then(res => {
+                this.form = res.data;
+            })
         },
         methods: {
             onSubmit() {
                 this.$message.success('提交成功！');
             },
-            onEditorChange({editor, html, text}) {
-                this.form.answer = html;
-            },
-            submit(){
-                console.log(this.form);
-                this.$message.success('提交成功！');
-                this.$http({
-                    url: '/addTitle',
-                    method: 'post',
-                    data: this.form
+            update(){
+                this.$axios.put(`/updateTitle`,this.form).then(res => {
+                    this.form = res.data;
+                    this.$message.success('更新成功！');
                 })
             }
         },
         computed: {
-        }
+          /*  editor() {
+                return this.$refs.myTextEditor.quillEditor;
+            }*/
+        },
+        components: {
+            quillEditor
+        },
     }
 </script>
 <style scoped>

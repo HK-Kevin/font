@@ -1,13 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-
-
 Vue.use(Router);
-
-
-
-
-
 export default new Router({
     routes: [
         {
@@ -25,6 +18,10 @@ export default new Router({
                 {
                     path: '/update',
                     component: resolve => require(['../components/page/Update.vue'], resolve)
+                },
+                {
+                    path: '/oneTitle/:id',
+                    component: resolve => require(['../components/page/OneTitle.vue'], resolve)
                 },
                 {
                     path: '/basetable',
