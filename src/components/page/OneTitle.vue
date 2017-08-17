@@ -39,15 +39,6 @@
 
             </el-form>
         </div>
-  <pre>
-      <code>
-          editor.customConfig.uploadImgServer = 'http://47.94.94.52:3000/upload' ; // 上传图片到服务器
-            editor.customConfig.uploadFileName = 'avator';
-            editor.create();
-            this.editor = editor;
-
-      </code>
-  </pre>
         <el-button class="editor-btn" type="primary" @click="update">确认更改</el-button>
     </div>
 </template>
@@ -61,7 +52,7 @@
                 editorContent: '',
                 hardCont: [1, 2, 3, 4, 5],
                 companyCont: ['阿里', '腾讯', '百度', "360", "小米"],
-                typeCont: ['CSS', '原生JS', 'jQuery', 'HTTP', 'Ajax',],
+                typeCont: ['html', 'css', 'js', 'jquery', 'ajax','algorithm','es6','react','vue','webpack','node'],
                 form: {
                     title: '',
                     type: [],
@@ -109,8 +100,8 @@
             },
             update(){
                 this.$axios.put(`/updateTitle`,this.form).then(res => {
-                    this.form = res.data;
-                    this.$message.success('更新成功！');
+                    if(res.data.result){this.$message.success('更新成功！');}
+
                 })
             }
         },

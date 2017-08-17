@@ -62,7 +62,7 @@
                 tableData: [],
                 cur_page: 1,
                 multipleSelection: [],
-                select_data: [{label: 'CSS'}, {label: '原生JS'}, {label: 'jQuery'},],
+                select_data: [{label: 'html'}, {label: 'css'}, {label: 'js'},{label: 'jquery'},{label: 'algorithm'},{label: 'ajax'},{label: 'es6'},{label: 'react'},{label: 'vue'},{label: 'webpack'},{label: 'node'},],
                 select_cate: '',
                 select_word: '',
                 del_list: [],

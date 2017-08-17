@@ -52,7 +52,7 @@
                 editorContent: '',
                 hardCont: [1, 2, 3, 4, 5],
                 companyCont: ['阿里', '腾讯', '百度', "360", "小米"],
-                typeCont: ['CSS', '原生JS', 'jQuery', 'HTTP', 'Ajax',],
+                typeCont: ['html', 'css', 'js', 'jquery', 'ajax','algorithm','es6','react','vue','webpack','node'],
                 form: {
                     title: '',
                     type: [],
