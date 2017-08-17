@@ -11,7 +11,11 @@ let baseUrl = 'http://47.94.94.52:3000';
 
 
 import 'highlight.js/styles/googlecode.css'
-
+import hljs from 'highlight.js'
+hljs.highlightCode =   function () {
+    let blocks = document.querySelectorAll('pre code');
+    [].forEach.call(blocks, hljs.highlightBlock);
+};
 
 
 Vue.use(ElementUI);

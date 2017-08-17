@@ -53,6 +53,7 @@
 </template>
 <script>
     import hljs from 'highlight.js'
+
     import E from 'wangeditor'
     export default {
         data: function () {
@@ -76,10 +77,11 @@
             }
         },
         mounted() {
-            hljs.initHighlighting();
+            hljs.highlightCode();
             let editor = new E('#editorElemOne');
             editor.customConfig.onchange = (html) => {
                 this.form.answer = html;
+                hljs.highlightCode();
             };
             editor.customConfig.uploadImgServer = 'http://47.94.94.52:3000/upload' ; // 上传图片到服务器
             editor.customConfig.uploadFileName = 'avator';
@@ -91,9 +93,17 @@
             this.$axios.get(`/oneTitle?id=${idObj.id}`).then(res => {
                 this.form = res.data;
                 this.editor.txt.html(res.data.answer)
+                hljs.highlightCode();
             })
+
+        },
+        watch:{
+
         },
         methods: {
+            ex(){
+                console.log(this.$router)
+            },
             onSubmit() {
                 this.$message.success('提交成功！');
             },
@@ -105,6 +115,7 @@
             }
         },
     }
+
 </script>
 
 <style scoped>
