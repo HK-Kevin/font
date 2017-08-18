@@ -8,11 +8,12 @@ import 'element-ui/lib/theme-default/index.css';    // 默认主题
 
 import "babel-polyfill";
 let baseUrl = 'http://47.94.94.52:3000';
+let mockUrl =  'http://192.168.205.123:3000';
 
 
 import 'highlight.js/styles/googlecode.css'
 import hljs from 'highlight.js'
-hljs.highlightCode =   function () {
+hljs.highlightCode = function () {
     let blocks = document.querySelectorAll('pre code');
     [].forEach.call(blocks, hljs.highlightBlock);
 };
@@ -21,12 +22,10 @@ hljs.highlightCode =   function () {
 Vue.use(ElementUI);
 
 
-let instance = axios.create({baseURL: baseUrl});
+let instance = axios.create({baseURL: mockUrl});
 Vue.prototype.$http = instance;
 
-axios.defaults.baseURL = 'https://api.example.com';
-
-axios.defaults.baseURL = 'http://47.94.94.52:3000';
+axios.defaults.baseURL = mockUrl;
 Vue.prototype.$axios = axios;
 new Vue({
     router,

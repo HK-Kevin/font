@@ -32,18 +32,9 @@
                 <template scope="scope">
                     <el-button size="small"
                                @click="handleEdit(scope.$index, scope.row)">编辑
-
-
-
-
                     </el-button>
                     <el-button size="small" type="danger"
-                               @click="handleDelete(scope.$index, scope.row)">删除
-
-
-
-
-                    </el-button>
+                               @click="handleDelete(scope.$index, scope.row)">删除                    </el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -112,7 +103,6 @@
 
             },//获取数据
             search(){
-                console.log(this.titleData)
                 this.is_search = true;
             },
             filterTag(value, row) {
@@ -181,7 +171,6 @@
             }, //删除所有
             handleSelectionChange(val) {
                 this.multipleSelection = val;
-                console.log(this.multipleSelection)
             },
             selectTypeData(val){
                 if (val.length == 0) {

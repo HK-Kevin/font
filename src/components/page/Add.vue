@@ -27,13 +27,18 @@
                 </el-form-item>
                 <el-form-item label="Hard">
                     <el-radio-group v-model="form.hard">
+                        <el-radio v-for="(item,index) in hotCont" :key="index" :label="item"></el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="Important">
+                    <el-radio-group v-model="form.important">
                         <el-radio v-for="(item,index) in hardCont" :key="index" :label="item"></el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="shortAnswer">
+                <el-form-item label="ShortAnswer">
                     <el-input type="textarea" v-model="form.shortAnswer"></el-input>
                 </el-form-item>
-                <el-form-item label="shortAnswer">
+                <el-form-item label="Answer">
                     <div id="editorElem" style="text-align:left;width: 200%"></div>
                 </el-form-item>
             </el-form>
@@ -44,19 +49,22 @@
 </template>
 
 <script>
-    import 'highlight.js/styles/googlecode.css'
+    import 'highlight.js/styles/atom-one-light.css'
+    import hljs from 'highlight.js'
     import E from 'wangeditor'
     export default {
         data: function () {
             return {
                 editorContent: '',
                 hardCont: [1, 2, 3, 4, 5],
+                hotCont: [1, 2, 3, 4, 5],
                 companyCont: ['阿里', '腾讯', '百度', "360", "小米"],
                 typeCont: ['html', 'css', 'js', 'jquery', 'ajax','algorithm','es6','react','vue','webpack','node'],
                 form: {
                     title: '',
                     type: [],
                     hard: 1,
+                    important:1,
                     company: [],
                     shortAnswer: '',
                     answer: '',
@@ -71,6 +79,7 @@
             let editor = new E('#editorElem');
             editor.customConfig.onchange = (html) => {
                 this.form.answer = html;
+                hljs.highlightCode();
             };
             editor.customConfig.uploadImgServer = 'http://47.94.94.52:3000/upload' ; // 上传图片到服务器
             editor.customConfig.uploadFileName = 'avator';
@@ -79,9 +88,6 @@
         methods: {
             onSubmit() {
                 this.$message.success('提交成功！');
-            },
-            onEditorChange({editor, html, text}) {
-                this.form.answer = html;
             },
             submit(){
                 console.log(this.form);

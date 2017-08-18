@@ -30,6 +30,11 @@
                         <el-radio v-for="(item,index) in hardCont" :key="index" :label="item"></el-radio>
                     </el-radio-group>
                 </el-form-item>
+                <el-form-item label="Important">
+                    <el-radio-group v-model="form.important">
+                        <el-radio v-for="(item,index) in hardCont" :key="index" :label="item"></el-radio>
+                    </el-radio-group>
+                </el-form-item>
                 <el-form-item label="shortAnswer">
                     <el-input type="textarea" v-model="form.shortAnswer"></el-input>
                 </el-form-item>
@@ -44,19 +49,20 @@
 </template>
 <script>
     import hljs from 'highlight.js'
-
     import E from 'wangeditor'
     export default {
         data: function () {
             return {
                 editorContent: '',
                 hardCont: [1, 2, 3, 4, 5],
+                hotCont: [1, 2, 3, 4, 5],
                 companyCont: ['阿里', '腾讯', '百度', "360", "小米"],
                 typeCont: ['html', 'css', 'js', 'jquery', 'ajax','algorithm','es6','react','vue','webpack','node'],
                 form: {
                     title: '',
                     type: [],
                     hard: 1,
+                    important: 1,
                     company: [],
                     shortAnswer: '',
                     answer: '',
@@ -92,9 +98,6 @@
 
         },
         methods: {
-            ex(){
-                console.log(this.$router)
-            },
             onSubmit() {
                 this.$message.success('提交成功！');
             },
